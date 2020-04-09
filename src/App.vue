@@ -13,6 +13,7 @@ import { Loading, Overlay } from 'vant'
 export default {
   components: { [Loading.name]: Loading, [Overlay.name]: Overlay },
   created () {
+    window.document.title = this.$config.SYS_NAME
     // 判断是否需要更新权限信息
     let lastTime = this.$util.getCookie('cacheTime')
     if (!lastTime) {
