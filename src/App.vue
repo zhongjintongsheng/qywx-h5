@@ -3,7 +3,7 @@
     <transition name="fade">
       <router-view />
     </transition>
-    <van-overlay :show="$store.state.loading" z-index="1000" class-name="custom-overlay">
+    <van-overlay :show="$store.state.loading" z-index="9999" class-name="custom-overlay">
       <van-loading size="24px" type="spinner" vertical class="loading">加载中...</van-loading>
     </van-overlay>
   </div>
