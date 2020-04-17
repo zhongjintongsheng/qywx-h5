@@ -1,6 +1,14 @@
-// localStorage相关操作
+import config from '@/config'
+
+/**
+ * localStorage相关操作
+ * 如果 name 为 user 不做处理
+ * 否则在 name 后面拼接项目名称
+ */
 export function setStorage (name, content) {
-  if (!name) return
+  if (name !== 'user') {
+    name += `_${config.PROJECT_NAME}`
+  }
   if (typeof content !== 'string') {
     content = JSON.stringify(content)
   }
@@ -8,7 +16,9 @@ export function setStorage (name, content) {
 }
 
 export function getStorage (name) {
-  if (!name) return
+  if (name !== 'user') {
+    name += `_${config.PROJECT_NAME}`
+  }
   let content = window.localStorage.getItem(name)
   try {
     JSON.parse(content)
@@ -19,7 +29,9 @@ export function getStorage (name) {
 }
 
 export function removeStorage (name) {
-  if (!name) return
+  if (name !== 'user') {
+    name += `_${config.PROJECT_NAME}`
+  }
   window.localStorage.removeItem(name)
 }
 

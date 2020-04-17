@@ -6,6 +6,11 @@
 <script>
 export default {
   created () {
+    // 清空缓存
+    this.$util.clearStorage()
+    this.$util.removeCookie('token')
+    this.$util.removeCookie('cacheTime')
+
     let param = {
       appCode: this.$config.APPLICATION_NAME,
       redirectUrl: this.$config.PORTAL + this.$config.WX_REDIRECT_URL

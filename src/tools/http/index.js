@@ -1,6 +1,5 @@
 import axios from './axios'
 import config from '@/config'
-import store from '@/store'
 import util from '@/tools/util'
 
 function checkOpts ({ url }) {
@@ -206,8 +205,6 @@ function devLogin () {
     success: ({ data }) => {
       util.setStorage('user', data)
       util.setCookie('token', data.token)
-      store.dispatch('getMenuAndPermission')
-      store.dispatch('getDict')
     }
   })
 }

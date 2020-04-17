@@ -16,14 +16,11 @@ export default {
   components: { [Loading.name]: Loading, [Overlay.name]: Overlay },
   created () {
     window.document.title = this.$config.SYS_NAME
-    // 判断是否需要更新权限信息
-    let lastTime = this.$util.getCookie('cacheTime')
-    if (!lastTime) {
-      return
-    }
-    // 计算缓存时间，是否超过30分钟
+    // 有token，并且缓存的时间大于30分钟，则更新数据
+    let token = this.$util.getCookie('token')
+    let lastTime = this.$util.getCookie('cacheTime') || 0
     let time = (Date.now() - lastTime) / 1000 / 60
-    if (time > 30) {
+    if (token && time > 30) {
       this.$store.dispatch('getMenuAndPermission')
       this.$store.dispatch('getDict')
     }
