@@ -8,8 +8,7 @@ export default {
   created () {
     // 清空缓存
     this.$util.clearStorage()
-    this.$util.removeCookie('token')
-    this.$util.removeCookie('cacheTime')
+    this.$util.clearCookie()
 
     let param = {
       appCode: this.$config.APPLICATION_NAME,

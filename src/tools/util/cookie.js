@@ -26,3 +26,9 @@ export function removeCookie (name) {
   }
   Cookies.remove(name)
 }
+
+export function clearCookie () {
+  Object.keys(Cookies.get()).forEach(name => {
+    Cookies.remove(name)
+  })
+}

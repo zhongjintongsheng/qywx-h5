@@ -3,7 +3,7 @@ import NodeRSA from 'node-rsa'
 import config from '@/config'
 import store from '@/store'
 import { setStorage, getStorage, removeStorage, clearStorage } from './localStorage'
-import { setCookie, getCookie, removeCookie } from './cookie'
+import { setCookie, getCookie, removeCookie, clearCookie } from './cookie'
 import { routerAuth } from './auth'
 import Vue from 'vue'
 import { Toast } from 'vant'
@@ -104,12 +104,13 @@ export default {
   setStorage,
   getStorage,
   removeStorage,
+  clearStorage,
   // cookie相关
   setCookie,
   getCookie,
   removeCookie,
+  clearCookie,
   routerAuth,
-  clearStorage,
   getDictTree,
   getLeafMenus,
   dateFormat
