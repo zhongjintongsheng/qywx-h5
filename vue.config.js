@@ -1,6 +1,7 @@
 const path = require('path')
 const TerserPlugin = require('terser-webpack-plugin')
 const CompressionWebpackPlugin = require('compression-webpack-plugin')
+const VConsolePlugin = require('vconsole-webpack-plugin')
 
 function resolve (dir) {
   return path.join(__dirname, '.', dir)
@@ -20,17 +21,22 @@ module.exports = {
   productionSourceMap: false,
   configureWebpack: config => {
     if (process.env.NODE_ENV === 'production') {
+      let envTestFlag = process.env.VUE_APP_MODE === 'test'
       config.plugins.push(new CompressionWebpackPlugin({
         algorithm: 'gzip',
         test: new RegExp(`\\.(${['js', 'css'].join('|')})$`),
         threshold: 10240,
         minRatio: 0.8
       }))
+      config.plugins.push(new VConsolePlugin({
+        filter: [],
+        enable: envTestFlag
+      }))
       config.plugins.push(new TerserPlugin({
         terserOptions: {
           compress: {
-            drop_debugger: true,
-            drop_console: true
+            drop_debugger: !envTestFlag,
+            drop_console: !envTestFlag
           }
         },
         sourceMap: false,

@@ -6,10 +6,13 @@
 <script>
 export default {
   created () {
+    let redirect = this.$util.getStorage('redirect')
+
     // 清空缓存
     this.$util.clearStorage()
     this.$util.clearCookie()
 
+    this.$util.setStorage('redirect', redirect)
     let param = {
       appCode: this.$config.APPLICATION_NAME,
       redirectUrl: this.$config.PORTAL + this.$config.WX_REDIRECT_URL
