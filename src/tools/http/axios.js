@@ -22,12 +22,12 @@ axios.interceptors.response.use(response => {
   let { respCode } = response.data
   // 处理 token 过期
   if (respCode === config.LOST_TOKEN) {
-    // 获取字典、获取权限接口处理
-    let url = response.config.url
-    if (url.includes(apis.base.getMenuAndPermission) || url.includes(apis.base.getDict)) {
-      return
-    }
     if (process.env.NODE_ENV === 'development') {
+      // 获取字典、获取权限接口处理
+      let url = response.config.url
+      if (url.includes(apis.base.getMenuAndPermission) || url.includes(apis.base.getDict)) {
+        return
+      }
       http.devLogin()
       return
     }
