@@ -53,6 +53,18 @@ function getDictTree () {
   return dictTree
 }
 
+// 获取字典数据的 optionKey
+function getDictOptionKey (dictType, optionCode) {
+  const dictArray = getStorage('dict')
+  if (!dictArray) {
+    return ''
+  }
+  if (!dictArray[dictType]) {
+    return ''
+  }
+  return dictArray[dictType].find(item => item.optionCode === optionCode).optionKey
+}
+
 // 递归处理叶子菜单
 function handleLeafMenu (menus, leafMenus) {
   menus.forEach(menu => {
@@ -112,6 +124,7 @@ export default {
   clearCookie,
   routerAuth,
   getDictTree,
+  getDictOptionKey,
   getLeafMenus,
   dateFormat
 }
