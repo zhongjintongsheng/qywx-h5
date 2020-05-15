@@ -62,7 +62,11 @@ function getDictOptionKey (dictType, optionCode) {
   if (!dictArray[dictType]) {
     return ''
   }
-  return dictArray[dictType].find(item => item.optionCode === optionCode).optionKey
+  let dict = dictArray[dictType].find(item => item.optionCode === optionCode)
+  if (!dict) {
+    return ''
+  }
+  return dict.optionKey
 }
 
 // 递归处理叶子菜单
