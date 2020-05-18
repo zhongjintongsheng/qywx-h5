@@ -15,7 +15,7 @@ export default {
     this.$util.setStorage('redirect', redirect)
     let param = {
       appCode: this.$config.APPLICATION_NAME,
-      redirectUrl: this.$config.PORTAL + this.$config.WX_REDIRECT_URL
+      redirectUrl: location.protocol + '//' + location.host + location.pathname + '#/'
     }
     // 获取授权登录地址
     this.$http.get({
