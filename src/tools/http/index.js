@@ -194,19 +194,27 @@ function upload (opts = {}) {
   reader.readAsDataURL(opts.file.raw)
 }
 
+// 控制登录次数（30S内只登录一次）
+let count = 0
 function devLogin () {
-  let param = {
-    loginName: config.LOGIN_NAME,
-    password: util.sha256(config.LOGIN_NAME + util.sha256(config.PASSWORD))
-  }
-  this.post({
-    url: config.PORTAL + 'ework/portal/login',
-    param,
-    success: ({ data }) => {
-      util.setStorage('user', data)
-      util.setCookie('token', data.token)
+  if (!count) {
+    count++
+    let param = {
+      loginName: config.LOGIN_NAME,
+      password: util.sha256(config.LOGIN_NAME + util.sha256(config.PASSWORD))
     }
-  })
+    this.post({
+      url: config.PORTAL + 'ework/portal/login',
+      param,
+      success: ({ data }) => {
+        util.setStorage('user', data)
+        util.setCookie('token', data.token)
+      }
+    })
+    setTimeout(() => {
+      count = 0
+    }, 30 * 1000)
+  }
 }
 
 /**
