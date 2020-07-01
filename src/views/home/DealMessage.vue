@@ -6,9 +6,9 @@
 <script>
 export default {
   created () {
+    this.refreshCache()
     let { reportCode, ...query } = this.$route.query
     this.$router.replace({ path: this.$util.codeToUrl(reportCode) || '404', query })
-    this.refreshCache()
   },
   methods: {
     refreshCache () {

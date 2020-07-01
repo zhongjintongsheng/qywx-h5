@@ -1,6 +1,7 @@
 const path = require('path')
 const TerserPlugin = require('terser-webpack-plugin')
 const CompressionWebpackPlugin = require('compression-webpack-plugin')
+const FileManagerPlugin = require('filemanager-webpack-plugin')
 const VConsolePlugin = require('vconsole-webpack-plugin')
 
 function resolve (dir) {
@@ -10,18 +11,25 @@ function resolve (dir) {
 module.exports = {
   devServer: {
     port: {{ port }},
-    proxy: 'http://172.17.121.211:7093'
+    proxy: {
+      '/ework': {
+        target: 'http://172.16.208.22:9995/',
+        changeOrigin: true
+      },
+      '/mapi': {
+        target: 'http://172.16.208.22:9993/coop-loan/',
+        changeOrigin: true
+      }
+    }
   },
-  publicPath: process.env.NODE_ENV === 'production'
-    ? '/static/{{ projName }}'
-    : '/',
+  publicPath: process.env.VUE_APP_BUILD_PATH,
   outputDir: '../../package/{{ projName }}',
   indexPath: '../../package/{{ projName }}/index.html',
   assetsDir: 'static',
   productionSourceMap: false,
   configureWebpack: config => {
     if (process.env.NODE_ENV === 'production') {
-      let envTestFlag = process.env.VUE_APP_MODE === 'test'
+      let envTestFlag = process.env.VUE_APP_CONSOLE === 'Y'
       config.plugins.push(new CompressionWebpackPlugin({
         algorithm: 'gzip',
         test: new RegExp(`\\.(${['js', 'css'].join('|')})$`),
@@ -41,6 +49,34 @@ module.exports = {
         },
         sourceMap: false,
         parallel: true
+      }))
+      config.plugins.push(new FileManagerPlugin({
+        onStart: [
+          {
+            delete: [path.join(config.output.path, '..', '{{ projName }}.zip')]
+          }
+        ],
+        onEnd: [
+          {
+            copy: [
+              {
+                source: config.output.path,
+                destination: path.join(config.output.path, '../temp-{{ projName }}/{{ projName }}')
+              }
+            ]
+          },
+          {
+            archive: [
+              {
+                source: path.join(config.output.path, '../temp-{{ projName }}'),
+                destination: path.join(config.output.path, '..', '{{ projName }}.zip')
+              }
+            ]
+          },
+          {
+            delete: [path.join(config.output.path, '../temp-{{ projName }}')]
+          }
+        ]
       }))
     }
   },

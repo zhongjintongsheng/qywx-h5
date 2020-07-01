@@ -5,7 +5,7 @@ import http from '@/tools/http'
 import apis from '@/apis'
 import router from '@/router'
 
-axios.defaults.baseURL = config.PORTAL + 'mapi/'
+axios.defaults.baseURL = config.PORTAL + process.env.VUE_APP_API
 axios.defaults.headers.common['If-Modified-Since'] = '0'
 if (process.env.NODE_ENV === 'production') {
   axios.defaults.timeout = config.NETWORK_TIMEOUT

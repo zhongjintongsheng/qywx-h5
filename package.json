@@ -4,9 +4,8 @@
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build",
-    "deploy": "vue-cli-service build && ework deploy zjts@2019",
-    "test-deploy": "vue-cli-service build --mode test && ework deploy zjts@2019"
+    "build:test": "vue-cli-service build --mode test",
+    "build": "vue-cli-service build"
   },
   "dependencies": {
     "axios": "0.19.0",
@@ -30,6 +29,7 @@
     "compression-webpack-plugin": "^3.0.0",
     "eslint": "^5.16.0",
     "eslint-plugin-vue": "^5.0.0",
+    "filemanager-webpack-plugin": "^2.0.5",
     "less": "^3.0.4",
     "less-loader": "^4.1.0",
     "postcss-px-to-viewport": "^1.1.1",
