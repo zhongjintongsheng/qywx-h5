@@ -1,6 +1,7 @@
 import axios from './axios'
 import config from '@/config'
 import util from '@/tools/util'
+import store from '@/store'
 
 function checkOpts ({ url }) {
   if (!url) {
@@ -209,6 +210,7 @@ function devLogin () {
       success: ({ data }) => {
         util.setStorage('user', data)
         util.setCookie('token', data.token)
+        store.dispatch('getDict')
       }
     })
     setTimeout(() => {
