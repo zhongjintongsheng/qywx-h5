@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import util from '@/tools/util'
+import store from '@/store'
 
 import Home from '@/views/home/Home.vue'
 import Relogin from '@/views/home/Relogin.vue'
@@ -91,18 +92,19 @@ if (process.env.NODE_ENV === 'production') {
       next()
       return
     }
-    util.setStorage('redirect', to.fullPath)
+    util.setSessionStorage('redirect', to.fullPath)
     let token = util.getCookie('token')
     if (!token) {
-      router.replace('/auth')
-    } else {
-      let flag = util.routerAuth(to.path)
-      if (!flag) {
-        router.replace('/noauth')
-        return
-      }
-      next()
+      next({ path: '/auth', replace: true })
+      return
     }
+    store.dispatch('getDict')
+      .then(() => {
+        next()
+      })
+      .catch(() => {
+        next({ path: '/auth', replace: true })
+      })
   })
 }
 

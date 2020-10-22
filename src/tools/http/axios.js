@@ -2,7 +2,6 @@ import axios from 'axios'
 import config from '@/config'
 import util from '@/tools/util'
 import http from '@/tools/http'
-import apis from '@/apis'
 import router from '@/router'
 
 axios.defaults.baseURL = config.PORTAL + process.env.VUE_APP_API
@@ -23,11 +22,6 @@ axios.interceptors.response.use(response => {
   // 处理 token 过期
   if (respCode === config.LOST_TOKEN) {
     if (process.env.NODE_ENV === 'development') {
-      // 获取字典、获取权限接口处理
-      let url = response.config.url
-      if (url.includes(apis.base.getMenuAndPermission) || url.includes(apis.base.getDict)) {
-        return
-      }
       http.devLogin()
       return
     }
@@ -40,7 +34,6 @@ axios.interceptors.response.use(response => {
     router.replace('/noauth')
     return
   }
-
   return response
 }, error => {
   if (error.response) {

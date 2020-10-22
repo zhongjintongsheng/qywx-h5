@@ -23,16 +23,18 @@ export default {
       param,
       loading: false,
       success: ({ data }) => {
-        this.$util.setStorage('user', data.user)
-        this.$util.setStorage('menus', data.menus)
-        this.$util.setStorage('permission', data.permissions)
+        // 0.清空 localStorage ，TODO 后期可以删除（20200708）
+        this.$util.clearLocalStorage()
+        // 1.缓存 用户信息 到 localStorage
+        this.$util.setLocalStorage('user', data.user)
+        // 2.缓存 token 到 cookie
         this.$util.setCookie('token', data.user.token)
-        this.$util.setCookie('cacheTime', Date.now())
+        // 3.获取字典
         this.$store.dispatch('getDict')
           .then(() => {
             this.$util.showLoading(false)
             // 跳转之前缓存的页面
-            this.$router.replace(this.$util.getStorage('redirect'))
+            this.$router.replace(this.$util.getSessionStorage('redirect'))
           })
           .catch(() => {
             this.$util.showLoading(false)
